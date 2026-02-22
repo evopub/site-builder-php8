@@ -1,6 +1,58 @@
-[![Build Status](https://secure.travis-ci.org/inanimatt/site-builder.png?branch=master)](http://travis-ci.org/inanimatt/site-builder)
+# Site-builder for PHP 8
 
-# Site-builder
+This is a version compatible with PHP 8 of [Site-builder](https://github.com/inanimatt/site-builder), the very easy to use Static Site Generator (SSG) that I use since many years for [Douance.org](https://douance.org) and [Evopsy.com](https://evopsy.com). 
+
+The conversion has been done 100% by Claude Sonnet 4.6 directly from the .phar file. 
+
+No other modification has been done. 
+
+## Installation and use
+
+1. Download [last release of sitebuilder_php8.phar](https://github.com/evopub/site-builder-php8/releases/download/phar/sitebuilder_php8.phar) 
+2. Put the `sitebuilder_php8.phar` file in the directory where you want to create your website
+3. In this directory, run `php sitebuilder_php8.phar init` to create the structure of the site
+4. Create your markdown files in `/content` (subdirectories are accepted) and your templates (in TWIG) in `/templates`
+5. Run `php sitebuilder_php8.phar rebuild` to generate the html from your content, the generated site will be in `/output`
+6. Upload (FTP) the content of `/output` to your server
+
+The original Readme is copied below (beware: the links there are the originals!).
+
+## Examples
+
+### YAML in Markdown file
+
+You can indicate the template used by each page in the YAML block (at the beginning of the markdown file in /content) by indicating its name. 
+
+For example, `output/ndex.html`  (homepage of Douance) is generated from `/content/index.md` using the dedicated template `/template/indexdouance.twig`. This is indicated in the YAML block: 
+
+    ---
+    title: Index  
+    author: Gouillou  
+    categories:  
+    tags:  
+    date: 1996 - MàJ : 21 janvier 2026
+    image:  
+    url: https://douance.org/index.html  
+    excerpt: Partie Historique de la homepage   
+    template: indexdouance.twig  
+    published: '1996'  
+    modified: '2026-01-21'  
+    ---
+
+    *Content in Markdown or HTML format*
+
+### Template
+
+Site-Builder will therefore use `/template/indexdouance.twig` where the content is converted to HTML and included by this code:  
+
+    <div class="sommaireIndex">
+        {{ content | raw }}
+    </div>
+
+## Site-builder (Original Readme)
+
+> [!CAUTION]
+> The links below have NOT been updated!
 
 Site-builder is a simple static site generator. It allows you to create and
 manage a website out of simple text files and templates. This gives you many of
@@ -12,7 +64,7 @@ directory, applying one or more transformation filters on the way.
 
 **Note:** There are more stable and better-supported static site generators out there; this is just a personal project to help me learn and improve my code. If you're looking for a well-supported and very capable static site generator, look at [Jekyll](http://jekyllrb.com/) (Ruby), [Hyde](http://ringce.com/hyde) (Python), or [Phrozn](http://www.phrozn.info/en/) or [PieCrust](http://bolt80.com/piecrust/) (both PHP).
 
-## Quick Start
+### Quick Start
 
 1. [Download the .phar file](https://lazycat.org/download/sitebuilder.phar). 
    It's the whole app in one file, with everything it needs to run.
@@ -29,7 +81,7 @@ directory, applying one or more transformation filters on the way.
    documentation.
 7. Run `php sitebuilder.phar rebuild` to regenerate your site.
 
-## Why use it?
+### Why use it?
 
 Using a CMS or Apache/PHP includes will build your site dynamically upon
 request, which adds a lot of overhead - your content probably doesn't change
@@ -45,7 +97,7 @@ Site-builder is yet another SSG. Out of the box it supports Twig templates, and
 content files in HTML and Markdown. It's also extensible, so you can add
 transformations for any other behaviour you want.
 
-## Requirements
+### Requirements
 
 * PHP 5.3 or newer. If you use Ubuntu or Debian, you may need to install 
   the `php5-cli` package to let you run scripts on the command-line.
@@ -61,7 +113,7 @@ requirements. See the next section for more about this.
 
 
 
-## Installation
+### Installation
 
 1. [Download](https://github.com/inanimatt/site-builder/zipball/master) or clone this repository.
 2. From the command-line, run `curl http://getcomposer.org/installer | php` and follow the on-screen instructions to install Composer.
@@ -69,9 +121,9 @@ requirements. See the next section for more about this.
 4. Test the installation by running `php sitebuilder.php rebuild`. Check for files in the `output` directory.
 5. If you're helping to develop Site-builder, run `php composer.phar install --dev` to install PHPUnit, and run it with `vendor/bin/phpunit`. You can copy `phpunit.xml.dist` to `phpunit.xml` if you want to change it. Rebuild the phar with the `compile.php` script.
 
-## Usage
+### Usage
 
-### The basics
+#### The basics
 
 1. Put your content (e.g. `index.html`, `about-me.md`) into the `content`
 directory. Content files are just that: the main content of the page you want
@@ -90,7 +142,7 @@ template variable called `$content` (or `{{content}}` in Twig).
 `output` directory.
 
 
-### Templates
+#### Templates
 
 Twig is a fast, clean, and extensible template language with a syntax very 
 similar to Jinja and Django's templating systems. Read more about [writing Twig 
@@ -102,13 +154,13 @@ escaped. You can tell Twig not to escape it by passing it through the `raw`
 filter, i.e. `{{ content | raw }}`
 
 
-### Content
+#### Content
 
 Site-builder accepts content in either HTML or Markdown format. Pick whichever
 you prefer, or use both. Both have an optional "front matter" block which contains instructions you can pass to the template.
 
 
-### HTML & Twig content format
+#### HTML & Twig content format
 
 Look at `content/example.html` for an example. The file is like any other HTML
 file and you can write whatever you like into it. The only difference is an
@@ -133,7 +185,7 @@ If you set the `template` variable in your front matter, then Site-builder will
 render the page with that template instead of the default.
 
 
-### Markdown & Twig content format
+#### Markdown & Twig content format
 
 Markdown is an "easy-to-read, easy-to-write plain text format", which is then
 turned into valid, clean HTML. It was developed by John Gruber and is very
@@ -181,7 +233,7 @@ front-matter block. The HTML content is set on the `{{ content | raw }}` variabl
 
 
 
-## Contributing
+### Contributing
 
 I'd love to have pull requests to improve Site-Builder. Please raise an issue 
 first though, in case someone's already working on the feature.
@@ -198,6 +250,6 @@ first though, in case someone's already working on the feature.
 
 * **Please submit pull requests to the `dev` branch!** The master branch is for tested, stable releases only.
 
-## Contributors
+### Contributors
 
 * [inouire](https://github.com/inouire)
